@@ -9,13 +9,21 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 
+import { brand } from './config/brand'
+
 export const firm = {
-  name: '[FIRM NAME]',
-  descriptor: 'Accounting | Tax | Audit | Corporate Compliance',
-  phone: '+91 00000 00000',
-  email: 'hello@example.com',
-  address: '[OFFICE LOCATION], India',
-  hours: 'Mon - Sat, 10:00 AM - 6:00 PM',
+  name: brand.fullName,
+  shortName: brand.shortName,
+  fullName: brand.fullName,
+  descriptor: brand.descriptor,
+  phone: brand.phone,
+  phoneLink: brand.phoneLink,
+  email: brand.email,
+  emailLink: brand.emailLink,
+  address: brand.address,
+  hours: brand.hours,
+  whatsappNumber: brand.whatsappNumber,
+  whatsappLink: brand.whatsappLink,
 }
 
 export const services = [
