@@ -4,7 +4,7 @@ import CategoryFilter from '../components/CategoryFilter'
 import NotificationCard from '../components/NotificationCard'
 import SearchBar from '../components/SearchBar'
 import { getNotifications } from '../lib/supabase'
-import { CTASection } from './HomePage'
+import CTASection from '../components/CTASection'
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([])

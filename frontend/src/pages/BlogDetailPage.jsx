@@ -17,7 +17,7 @@ import {
   getVisitorId,
   togglePostLike,
 } from '../lib/supabase'
-import { CTASection } from './HomePage'
+import CTASection from '../components/CTASection'
 
 export default function BlogDetailPage() {
   const { slug } = useParams()

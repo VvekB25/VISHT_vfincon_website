@@ -13,7 +13,6 @@ export const brand = {
   city: 'Bengaluru',
   state: 'Karnataka',
   pincode: '560085',
-  hours: 'Mon - Sat, 10:00 AM - 6:00 PM',
 
   // Official Contact Channels
   phone: '+91 9035387198',

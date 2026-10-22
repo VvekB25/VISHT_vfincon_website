@@ -1,104 +1,34 @@
 import {
-  BadgeIndianRupee,
-  BookOpenCheck,
-  Building2,
-  ClipboardCheck,
-  FileCheck2,
-  Landmark,
-  ReceiptIndianRupee,
-  ShieldCheck,
+  BookOpenCheck, Building2, FileCheck2, Landmark, ReceiptIndianRupee, ShieldCheck,
 } from 'lucide-react'
-
 import { brand } from './config/brand'
 
-export const firm = {
-  name: brand.fullName,
-  shortName: brand.shortName,
-  fullName: brand.fullName,
-  descriptor: brand.descriptor,
-  phone: brand.phone,
-  phoneLink: brand.phoneLink,
-  email: brand.email,
-  emailLink: brand.emailLink,
-  address: brand.address,
-  hours: brand.hours,
-  whatsappNumber: brand.whatsappNumber,
-  whatsappLink: brand.whatsappLink,
-}
+export const firm = { ...brand }
 
 export const services = [
-  {
-    title: 'Accounting & Bookkeeping',
-    slug: 'accounting',
-    icon: BookOpenCheck,
-    description: 'Organized books, timely reporting and practical accounting support for confident business decisions.',
-    items: ['Bookkeeping', 'Financial accounting', 'Financial statements', 'Payroll / accounting support'],
-  },
-  {
-    title: 'Audit & Assurance',
-    slug: 'audit',
-    icon: ClipboardCheck,
-    description: 'Structured audit assistance and assurance support that helps businesses meet their reporting responsibilities.',
-    items: ['Statutory Audit', 'Internal Audit', 'Tax Audit', 'Audit Assistance'],
-  },
-  {
-    title: 'Taxation & GST',
-    slug: 'taxation',
-    icon: ReceiptIndianRupee,
-    description: 'Clear, dependable support for income tax, GST, TDS and ongoing tax compliance requirements.',
-    items: ['Income Tax Return Filing', 'GST Registration', 'GST Return Filing', 'TDS Compliance', 'Tax Compliance & Advisory'],
-  },
-  {
-    title: 'Business Registration',
-    slug: 'registration',
-    icon: Building2,
-    description: 'A guided start for new ventures, from choosing a structure to completing essential registrations.',
-    items: ['Private Limited Company Registration', 'LLP Registration', 'Partnership Registration', 'Proprietorship', 'MSME / Udyam Registration', 'Startup Registration'],
-  },
-  {
-    title: 'Corporate Compliance',
-    slug: 'compliance',
-    icon: ShieldCheck,
-    description: 'Keep recurring company and LLP obligations visible, organized and completed on schedule.',
-    items: ['MCA / ROC Annual Compliance', 'Annual Returns', 'Director Compliance', 'Company / LLP Compliance', 'Other statutory filings'],
-  },
-  {
-    title: 'Licensing & Registrations',
-    slug: 'licensing',
-    icon: BadgeIndianRupee,
-    description: 'Practical assistance with the registrations and licences your business needs to operate properly.',
-    items: ['FSSAI', 'Shops & Establishment', 'Professional Tax', 'Import Export Code', 'Digital Signature Certificate', 'Other Business Licences'],
-  },
+  { title: 'Business & Entity Registration', slug: 'business-registration', icon: Building2, description: 'Set up the right business entity and complete essential registrations.', items: ['Company, LLP & OPC Incorporation', 'Partnership & Trust Registration', 'MSME Registration'] },
+  { title: 'Tax Registrations & Identification', slug: 'tax-registrations', icon: ReceiptIndianRupee, description: 'Registration and record updates for key tax identities and obligations.', items: ['GST Registration & Modifications', 'Professional Tax (PT) Registration', 'PAN/TAN Applications & Corrections'] },
+  { title: 'Licenses & Government Registrations', slug: 'licenses-registrations', icon: Landmark, description: 'Assistance with government registrations and operating licenses.', items: ['FSSAI License (Food License)', 'BBMP Trade License', 'Shops & Establishment Registration', 'PF & ESI Registration', 'IEC Registration (Import Export Code)'] },
+  { title: 'Certifications & Export Documentation', slug: 'certifications-export', icon: FileCheck2, description: 'Support for certification applications and export documentation.', items: ['Trademark Registration', 'RCMC-APEDA Certificate', 'Letter of Undertaking (LUT)', 'Free Sale Certificate', 'NSIC Certificate'] },
+  { title: 'Accounting & Audit Support', slug: 'accounting-audit', icon: BookOpenCheck, description: 'Organized books, financial reporting and audit assistance.', items: ['Complete Bookkeeping Services', 'Financial Statements & MIS Reporting', 'Internal & Statutory Audit Assistance'] },
+  { title: 'Regulatory Filing & Compliance', slug: 'regulatory-compliance', icon: ShieldCheck, description: 'Recurring tax, payroll and corporate filings managed with care.', items: ['GST Returns (GSTR-1, GSTR-3B & Annual Return)', 'TDS Filing & Reconciliation', 'PF & ESI Monthly Returns', 'PT Monthly & Annual Returns', 'Income Tax Returns (Individuals & Businesses)', 'MCA Related Filings'] },
+  { title: 'Digital Signature Certificates (DSC)', slug: 'digital-signatures', icon: FileCheck2, description: 'Digital signature application, renewal and token support.', items: ['Class 3 DSC - Individual & Organizational', 'Paperless Application & Fast Issuance', 'Renewals & Token Management'] },
 ]
+
+export const categories = services.map(({ title, slug }) => [title, slug])
 
 export const values = [
   ['Reliable & Professional', 'Clear communication and careful work at every stage.'],
   ['Timely Compliance', 'A practical view of due dates, documents and follow-through.'],
-  ['Business-Focused Approach', 'Advice shaped around your business context and priorities.'],
+  ['Business-Focused Approach', 'Support shaped around your business context and priorities.'],
   ['Transparent Process', 'Straightforward scope, next steps and updates.'],
-  ['Personalized Support', 'A responsive point of contact for your ongoing requirements.'],
 ]
 
 export const processSteps = [
   ['01', 'Understand Your Requirement', 'We listen first and clarify the outcome you need.'],
   ['02', 'Document Collection', 'We share a clear checklist and organize the information.'],
-  ['03', 'Processing & Compliance', 'Our team works through the relevant filings or deliverables.'],
+  ['03', 'Processing & Compliance', 'We work through the relevant filings or deliverables.'],
   ['04', 'Completion & Support', 'You receive the completed work and guidance on what comes next.'],
 ]
 
-export const categories = [
-  ['Accounting & Bookkeeping', 'accounting'],
-  ['Audit & Assurance', 'audit'],
-  ['Taxation & GST', 'taxation'],
-  ['Business Registration', 'registration'],
-  ['Corporate Compliance', 'compliance'],
-  ['Licensing & Registrations', 'licensing'],
-]
-
-export const trustItems = [
-  ['Accounting & Bookkeeping', BookOpenCheck],
-  ['Tax & GST', ReceiptIndianRupee],
-  ['Audit & Assurance', ClipboardCheck],
-  ['Business Registration', Building2],
-  ['Corporate Compliance', Landmark],
-]
+export const trustItems = services.slice(0, 5).map(({ title, icon }) => [title, icon])

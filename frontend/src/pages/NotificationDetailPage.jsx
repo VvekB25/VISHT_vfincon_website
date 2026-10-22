@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import { getNotificationBySlug } from '../lib/supabase'
 import { brand } from '../config/brand'
-import { CTASection } from './HomePage'
+import CTASection from '../components/CTASection'
 
 export default function NotificationDetailPage() {
   const { slug } = useParams()

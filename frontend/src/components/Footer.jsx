@@ -18,9 +18,6 @@ export default function Footer() {
             </div>
           </Link>
           <p className="footer-intro">{brand.descriptor}</p>
-          <div className="footer-hours">
-            <small>Office Hours: {brand.hours}</small>
-          </div>
         </div>
 
         <div>
@@ -42,11 +39,11 @@ export default function Footer() {
         <div>
           <h3>Practice Areas</h3>
           {[
-            ['Accounting & Books', '/services'],
-            ['Taxation & GST', '/services'],
-            ['Statutory Audit', '/services'],
-            ['Company Registration', '/services'],
-            ['MCA & ROC Compliance', '/services'],
+            ['Business & Entity Registration', '/services'],
+            ['Tax Registrations', '/services'],
+            ['Licenses & Government Registrations', '/services'],
+            ['Accounting & Audit Support', '/services'],
+            ['Regulatory Filing & Compliance', '/services'],
           ].map(([item, path]) => (
             <Link className="footer-link" key={item} to={path}>
               {item}
@@ -82,8 +79,7 @@ export default function Footer() {
       <div className="container footer-bottom">
         <span>© 2026 {brand.fullName} ({brand.shortName}). All rights reserved.</span>
         <span>
-          <button type="button">Privacy Policy</button>
-          <button type="button">Terms & Conditions</button>
+          <span>{brand.address}</span>
         </span>
       </div>
     </footer>

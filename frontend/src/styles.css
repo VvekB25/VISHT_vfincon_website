@@ -1832,18 +1832,68 @@ a { color: inherit; text-decoration: none; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(650px, 80vw);
-  height: min(560px, 70vh);
+  width: min(720px, 88vw);
+  height: min(620px, 78vh);
   background-image: url('/logo.png');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: contain;
-  opacity: 0.038; /* Soft, delicate, authentic watermark finish */
+  opacity: 0.055;
   pointer-events: none; /* Passes 100% of mouse, touch, and scroll interactions straight through */
-  z-index: 9999; /* Floats softly across paper background and sections without being obscured */
+  z-index: 2;
   user-select: none;
   mix-blend-mode: multiply;
 }
+
+/* VFINCON service cards and concise homepage sections */
+main, .site-footer { position: relative; }
+.section { padding-top: 78px; padding-bottom: 78px; }
+.page-intro { padding-top: 60px; padding-bottom: 58px; }
+.service-category-card, .contact-form, .profile-panel, .home-contact-card { border-radius: 6px; box-shadow: 0 3px 14px rgba(16,43,73,.035); }
+.service-category-card { padding: 20px; background: rgba(255,255,255,.82); }
+.home-contact-card { padding: 24px; }
+.contact-form { padding: 26px; }
+.site-footer { z-index: 1; }
+.service-category-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.service-category-card { display: flex; flex-direction: column; min-width: 0; padding: 22px; background: rgba(255,255,255,.94); border: 1px solid var(--line); box-shadow: 0 5px 18px rgba(16,43,73,.035); }
+.service-category-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.service-number { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.service-category-card .card-icon { margin: 0; width: 38px; height: 38px; }
+.service-category-card h2 { font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 700; line-height: 1.3; margin: 0 0 8px; }
+.service-category-description { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0 0 13px; }
+.category-service-list { list-style: none; padding: 0; margin: 0; }
+.category-service-list li { display: flex; align-items: flex-start; gap: 8px; color: var(--ink); font-size: 12px; line-height: 1.45; padding: 7px 0; border-top: 1px solid #edf0f2; }
+.category-service-list li svg { color: var(--accent); flex: 0 0 auto; margin-top: 2px; }
+.service-expand { display: inline-flex; gap: 6px; align-items: center; align-self: flex-start; padding: 7px 0 0; border: 0; color: var(--navy-2); background: transparent; font-size: 12px; font-weight: 700; }
+.service-expand:focus-visible, .button:focus-visible, a:focus-visible { outline: 3px solid #bd7b4d; outline-offset: 3px; }
+.services-page { padding-top: 52px; }
+.home-services-section { padding: 78px 0; }
+.home-services-section .section-heading { margin-bottom: 28px; }
+.preview-grid .service-category-card { padding: 18px; }
+.services-all-link { display: flex; justify-content: center; margin-top: 26px; }
+.hero-phone { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; margin-top: 22px; }
+.hero-phone svg { color: var(--accent); }
+.hero-service-visual { min-height: 390px; }
+.hero-visual-card { width: min(400px, 90%); min-height: 310px; padding: 30px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; background: white; border: 1px solid var(--line); box-shadow: 18px 18px 0 #edf1f3; }
+.hero-visual-card > img { width: 100px; height: 55px; object-fit: contain; object-position: left center; }
+.hero-visual-card > span { color: var(--accent); text-transform: uppercase; letter-spacing: .12em; font-size: 10px; font-weight: 700; }
+.hero-visual-card > strong { max-width: 290px; color: var(--navy); font-family: 'Fraunces', Georgia, serif; font-size: 25px; font-weight: 500; line-height: 1.25; }
+.hero-visual-icons { display: flex; gap: 14px; color: var(--navy-2); margin-top: 5px; }
+.hero-visual-note { display: flex; gap: 7px; align-items: center; color: var(--muted); font-size: 11px; }
+.home-about-grid { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 80px; }
+.home-about-grid .section-heading { margin-bottom: 22px; }
+.home-contact-card { padding: 28px; background: white; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; gap: 11px; }
+.home-contact-card .eyebrow { margin-bottom: 0; }
+.home-contact-card h3 { color: var(--navy); font-size: 20px; margin: 0 0 5px; }
+.home-contact-card > a { color: var(--navy-2); font-size: 13px; }
+.home-contact-card > a:last-child { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; margin-top: 6px; }
+.about-copy-block h2 { font-size: 36px; margin: 0 0 18px; }
+.about-copy-block p { max-width: 580px; color: var(--muted); }
+.profile-panel dd { max-width: 68%; text-align: right; overflow-wrap: anywhere; }
+.footer-bottom > span:last-child { display: none; }
+@media (max-width: 900px) { .service-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.home-about-grid { gap: 40px; } }
+@media (max-width: 700px) { .service-category-grid { grid-template-columns: 1fr; }.home-about-grid { grid-template-columns: 1fr; gap: 30px; }.hero-service-visual { min-height: 320px; }.hero-visual-card { min-height: 270px; }.services-page { padding-top: 38px; } }
+@media (max-width: 700px) { .global-watermark { width: 88vw; height: 58vh; opacity: .045; }.section { padding-top: 58px; padding-bottom: 58px; }.page-intro { padding-top: 48px; padding-bottom: 46px; }.service-category-card { padding: 18px; } }
 
 /* Header & Navigation Branding */
 .brand {

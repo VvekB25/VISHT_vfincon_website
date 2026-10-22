@@ -4,7 +4,7 @@ import BlogCard from '../components/BlogCard'
 import CategoryFilter from '../components/CategoryFilter'
 import SearchBar from '../components/SearchBar'
 import { getBlogPosts } from '../lib/supabase'
-import { CTASection } from './HomePage'
+import CTASection from '../components/CTASection'
 
 export default function BlogPage() {
   const [posts, setPosts] = useState([])
