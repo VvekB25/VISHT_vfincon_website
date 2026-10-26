@@ -11,11 +11,13 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
-  role TEXT NOT NULL DEFAULT 'admin' CHECK (role IN ('admin', 'editor')),
-  full_name TEXT DEFAULT 'Vidmahi Fin Consultants Administrator',
+  role TEXT NOT NULL CHECK (role IN ('admin', 'editor')),
+  full_name TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
+ALTER TABLE public.profiles ALTER COLUMN role DROP DEFAULT;
+ALTER TABLE public.profiles ALTER COLUMN full_name DROP DEFAULT;
 
 -- 3. NOTIFICATIONS TABLE
 -- Regulatory, tax, MCA, accounting and statutory updates
@@ -107,13 +109,14 @@ FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 -- 9. HELPER SECURITY FUNCTION: IS_ADMIN()
 CREATE OR REPLACE FUNCTION public.is_admin()
 RETURNS BOOLEAN AS $$
-BEGIN
-  RETURN EXISTS (
+  SELECT EXISTS (
     SELECT 1 FROM public.profiles
-    WHERE id = auth.uid() AND role IN ('admin', 'editor')
+    WHERE id = (SELECT auth.uid()) AND role IN ('admin', 'editor')
   );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = '';
+
+REVOKE ALL ON FUNCTION public.is_admin() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated;
 
 -- 10. ROW LEVEL SECURITY (RLS) SETUP
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
@@ -124,14 +127,13 @@ ALTER TABLE public.post_likes ENABLE ROW LEVEL SECURITY;
 
 -- Profiles Policies
 DROP POLICY IF EXISTS "Admins can view profiles" ON public.profiles;
-CREATE POLICY "Admins can view profiles"
+DROP POLICY IF EXISTS "profiles_self_read" ON public.profiles;
+CREATE POLICY "profiles_self_read"
 ON public.profiles FOR SELECT
-USING (auth.uid() = id OR public.is_admin());
+TO authenticated USING (auth.uid() = id);
 
 DROP POLICY IF EXISTS "Admins can update own profile" ON public.profiles;
-CREATE POLICY "Admins can update own profile"
-ON public.profiles FOR UPDATE
-USING (auth.uid() = id);
+DROP POLICY IF EXISTS "profiles_self_update" ON public.profiles;
 
 -- Notifications Policies
 -- Public: Read only published & non-expired notifications
@@ -184,7 +186,8 @@ ON public.comments FOR INSERT
 WITH CHECK (
   status = 'pending'
   AND char_length(trim(author_name)) >= 2
-  AND char_length(trim(content)) >= 3
+  AND char_length(trim(author_name)) <= 60
+  AND char_length(trim(content)) BETWEEN 3 AND 1500
 );
 
 -- Admin: Full access to moderate (update, delete, view all) comments
@@ -195,24 +198,25 @@ TO authenticated
 USING (public.is_admin())
 WITH CHECK (public.is_admin());
 
--- Likes Policies
--- Public: Anyone can view likes count
-DROP POLICY IF EXISTS "Public can view likes" ON public.post_likes;
-CREATE POLICY "Public can view likes"
-ON public.post_likes FOR SELECT
-USING (true);
-
--- Public: Insert a like with visitor_id
-DROP POLICY IF EXISTS "Public can add like" ON public.post_likes;
-CREATE POLICY "Public can add like"
-ON public.post_likes FOR INSERT
-WITH CHECK (visitor_id IS NOT NULL AND length(visitor_id) > 5);
-
--- Public: Remove own like
+-- Anonymous like writes are disabled because browser-generated visitor IDs do
+-- not prove ownership and can be forged. Keep the table accessible to admins only.
 DROP POLICY IF EXISTS "Public can remove own like" ON public.post_likes;
-CREATE POLICY "Public can remove own like"
-ON public.post_likes FOR DELETE
-USING (visitor_id IS NOT NULL);
+DROP POLICY IF EXISTS "Public can add like" ON public.post_likes;
+DROP POLICY IF EXISTS "Public can view likes" ON public.post_likes;
+DROP POLICY IF EXISTS "Admins can manage likes" ON public.post_likes;
+CREATE POLICY "Admins can manage likes"
+ON public.post_likes FOR ALL TO authenticated
+USING (public.is_admin()) WITH CHECK (public.is_admin());
+REVOKE ALL ON public.post_likes FROM anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.post_likes TO authenticated;
+
+-- Explicit least-privilege table grants. RLS policies above remain the
+-- authorization boundary for every row-level operation.
+GRANT SELECT ON public.notifications, public.blog_posts TO anon, authenticated;
+GRANT SELECT, INSERT ON public.comments TO anon, authenticated;
+GRANT SELECT ON public.profiles TO authenticated;
+GRANT INSERT, UPDATE, DELETE ON public.notifications, public.blog_posts TO authenticated;
+GRANT UPDATE, DELETE ON public.comments TO authenticated;
 
 -- 11. STORAGE BUCKET FOR CONTENT ATTACHMENTS (OPTIONAL)
 INSERT INTO storage.buckets (id, name, public)

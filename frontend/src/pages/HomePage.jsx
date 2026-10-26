@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { brand } from '../config/brand'
 import ServiceGrid from '../components/ServiceGrid'
 import CTASection from '../components/CTASection'
+import ComplianceClock from '../components/ComplianceClock'
 
 function SectionHeading({ eyebrow, title, copy, align = 'left' }) {
   return <div className={`section-heading ${align}`}><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{copy && <p>{copy}</p>}</div>
@@ -15,7 +16,7 @@ function Hero() {
       <div className="hero-copy">
         <span className="eyebrow">{brand.combinedIntro}</span>
         <h1>Clear support for <em>business, tax</em> and compliance.</h1>
-        <p>Practical assistance with registrations, accounting, audit support and recurring filings for businesses in Bengaluru.</p>
+        <p>Practical assistance with registrations, accounting, audit support and recurring filings for businesses .</p>
         <div className="hero-actions">
           <button className="button primary" onClick={() => navigate('/contact')}>Enquire now <ArrowRight size={17} /></button>
           <button className="button secondary" onClick={() => navigate('/services')}>View services</button>
@@ -35,6 +36,7 @@ function Hero() {
 export default function HomePage() {
   return <main>
     <Hero />
+    <ComplianceClock />
     <section className="section home-services-section"><div className="container">
       <SectionHeading eyebrow="Services" title="Support across seven service areas" copy="Find the registrations, filings and professional support relevant to your business." />
       <ServiceGrid preview />

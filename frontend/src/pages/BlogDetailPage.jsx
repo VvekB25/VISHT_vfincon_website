@@ -5,27 +5,18 @@ import {
   ArrowLeft,
   Calendar,
   Clock,
-  Heart,
   Tag,
   User,
 } from 'lucide-react'
 import CommentSection from '../components/CommentSection'
 import ShareButton from '../components/ShareButton'
-import {
-  getBlogPostBySlug,
-  getPostLikes,
-  getVisitorId,
-  togglePostLike,
-} from '../lib/supabase'
+import { getBlogPostBySlug } from '../lib/supabase'
 import CTASection from '../components/CTASection'
 
 export default function BlogDetailPage() {
   const { slug } = useParams()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [likesCount, setLikesCount] = useState(0)
-  const [hasLiked, setHasLiked] = useState(false)
-  const [liking, setLiking] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -35,16 +26,9 @@ export default function BlogDetailPage() {
         const data = await getBlogPostBySlug(slug)
         if (mounted && data) {
           setPost(data)
-          // Fetch likes with visitor ID
-          const vid = getVisitorId()
-          const likesInfo = await getPostLikes(data.id, vid)
-          if (mounted) {
-            setLikesCount(likesInfo.count)
-            setHasLiked(likesInfo.hasLiked)
-          }
         }
-      } catch (err) {
-        console.error('Error loading blog article:', err)
+      } catch {
+        if (mounted) setPost(null)
       } finally {
         if (mounted) setLoading(false)
       }
@@ -54,21 +38,6 @@ export default function BlogDetailPage() {
       mounted = false
     }
   }, [slug])
-
-  const handleLikeToggle = async () => {
-    if (!post || liking) return
-    try {
-      setLiking(true)
-      const vid = getVisitorId()
-      const updated = await togglePostLike(post.id, vid)
-      setLikesCount(updated.count)
-      setHasLiked(updated.hasLiked)
-    } catch (err) {
-      console.error('Like toggle failed:', err)
-    } finally {
-      setLiking(false)
-    }
-  }
 
   if (loading) {
     return (
@@ -149,19 +118,7 @@ export default function BlogDetailPage() {
                 </div>
               </div>
 
-              {/* Top Interaction Buttons: Like & Share */}
               <div className="article-actions-bar">
-                <button
-                  type="button"
-                  className={`like-button ${hasLiked ? 'liked' : ''}`}
-                  onClick={handleLikeToggle}
-                  disabled={liking}
-                  aria-label={hasLiked ? 'Unlike article' : 'Like article'}
-                >
-                  <Heart size={16} className={hasLiked ? 'heart-filled' : ''} />
-                  <span>{likesCount} {likesCount === 1 ? 'Like' : 'Likes'}</span>
-                </button>
-
                 <ShareButton title={title} text={excerpt} />
               </div>
             </div>
@@ -210,24 +167,6 @@ export default function BlogDetailPage() {
               </div>
             </div>
           )}
-
-          {/* Bottom Interaction & Engagement Bar */}
-          <div className="article-engagement-bar">
-            <div className="engagement-left">
-              <button
-                type="button"
-                className={`like-button large ${hasLiked ? 'liked' : ''}`}
-                onClick={handleLikeToggle}
-                disabled={liking}
-              >
-                <Heart size={18} className={hasLiked ? 'heart-filled' : ''} />
-                <span>{hasLiked ? 'Liked' : 'Helpful Article'} ({likesCount})</span>
-              </button>
-            </div>
-            <div className="engagement-right">
-              <ShareButton title={title} text={excerpt} />
-            </div>
-          </div>
 
           {/* Comment Section (Moderated) */}
           <CommentSection postId={id} postTitle={title} />

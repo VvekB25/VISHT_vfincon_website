@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AlertCircle, ArrowRight, Lock, ShieldCheck } from 'lucide-react'
+import { AlertCircle, ArrowRight, ShieldCheck } from 'lucide-react'
 import { adminSignIn, isSupabaseConfigured } from '../../lib/supabase'
 
 import { brand } from '../../config/brand'
@@ -52,13 +52,17 @@ export default function AdminLoginPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="login-form">
+        {!isSupabaseConfigured ? (
+          <div className="form-error" role="status">
+            Administrator sign-in is unavailable right now. Please contact the site administrator.
+          </div>
+        ) : <form onSubmit={handleSubmit} className="login-form">
           <label>
             Admin Email Address
             <input
               type="email"
               required
-              placeholder={brand.email}
+              placeholder="Admin email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
@@ -82,17 +86,13 @@ export default function AdminLoginPage() {
           <button type="submit" className="button primary login-btn" disabled={loading}>
             {loading ? 'Authenticating...' : 'Sign In to Dashboard'} <ArrowRight size={16} />
           </button>
-        </form>
+        </form>}
 
         <div className="login-security-notice">
           <ShieldCheck size={16} />
           <div>
-            <strong>Security Architecture:</strong>
-            <p>
-              {isSupabaseConfigured
-                ? 'Protected by Supabase Auth with PostgreSQL Row Level Security (RLS) policies. Only accounts in the administrative profiles table are authorized.'
-                : 'Demo/Local Mode: Live Supabase credentials are not yet set in .env. You can enter any admin email and password to explore the content management workflow.'}
-            </p>
+            <strong>Authorized access only</strong>
+            <p>Only authenticated accounts with administrator access can use content management.</p>
           </div>
         </div>
 
