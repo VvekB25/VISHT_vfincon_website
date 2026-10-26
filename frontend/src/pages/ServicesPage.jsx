@@ -8,7 +8,7 @@ export default function ServicesPage() {
         <div className="container">
           <span className="eyebrow">How we can help</span>
           <h1>Services for your business requirements</h1>
-          <p>Explore registration, tax, accounting and compliance support from Vidmahi Fin Consultants.</p>
+          <p>Explore registration, tax, accounting and compliance support from VIDMAHI Fin Consultants.</p>
         </div>
       </section>
       <section className="section services-page">

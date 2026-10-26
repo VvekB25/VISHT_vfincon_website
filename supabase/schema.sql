@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS public.blog_posts (
   featured_image TEXT NULL,
   category TEXT NOT NULL,
   tags TEXT[] DEFAULT '{}',
-  author_name TEXT NOT NULL DEFAULT 'Vidmahi Fin Consultants Advisory Desk',
+  author_name TEXT NOT NULL DEFAULT 'VIDMAHI Fin Consultants Advisory Desk',
   status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
   published_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
   created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),

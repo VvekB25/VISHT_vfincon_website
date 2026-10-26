@@ -43,7 +43,7 @@ export default function HomePage() {
       <div className="services-all-link"><Link className="button secondary" to="/services">See all services <ArrowRight size={16} /></Link></div>
     </div></section>
     <section className="section soft-section home-about-section"><div className="container home-about-grid">
-      <div><SectionHeading eyebrow="About us" title="Vidmahi Fin Consultants" copy="We support businesses with accounting, tax registrations, government licenses and regulatory filing requirements." /><Link className="text-link" to="/about">About the firm <ArrowRight size={15} /></Link></div>
+      <div><SectionHeading eyebrow="About us" title="VIDMAHI Fin Consultants" copy="We support businesses with accounting, tax registrations, government licenses and regulatory filing requirements." /><Link className="text-link" to="/about">About the firm <ArrowRight size={15} /></Link></div>
       <div className="home-contact-card"><span className="eyebrow">Get in touch</span><h3>Speak with our team about your requirement.</h3><a href={brand.phoneLink}>{brand.phone}</a><a href={brand.emailLink}>{brand.email}</a><Link to="/contact">Contact details and enquiry form <ArrowRight size={15} /></Link></div>
     </div></section>
     <CTASection />
